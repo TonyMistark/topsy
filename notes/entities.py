@@ -36,7 +36,7 @@ class Note(Entity):
     created_by = attr.ib(default=None)
     created_at = attr.ib(default=datetime.utcnow())
     modified_at = attr.ib(default=datetime.utcnow())
-    status = attr.ib(default='active')
+    status = attr.ib(default="active")
 
 
 @attr.s(frozen=True)
@@ -47,4 +47,4 @@ class Board(Entity):
     id = attr.ib(default=None)
     created_at = attr.ib(default=datetime.utcnow())
     modified_at = attr.ib(default=datetime.utcnow())
-    status = attr.ib(default='active')
+    status = attr.ib(default="active")

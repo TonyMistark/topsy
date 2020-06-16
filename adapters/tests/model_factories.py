@@ -5,27 +5,27 @@ import factory
 
 class User(factory.django.DjangoModelFactory):
     class Meta:
-        model = 'accounts.User'
+        model = "accounts.User"
 
-    name = 'User'
-    email = 'user@example.com'
+    name = "User"
+    email = "user@example.com"
 
 
 class Note(factory.django.DjangoModelFactory):
     class Meta:
-        model = 'notes.Note'
+        model = "notes.Note"
 
-    title = 'Title'
-    body = 'Body...'
+    title = "Title"
+    body = "Body..."
 
 
 class Board(factory.django.DjangoModelFactory):
     class Meta:
-        model = 'notes.Board'
+        model = "notes.Board"
 
-    name = 'Board'
+    name = "Board"
 
 
 class BoardUser(factory.django.DjangoModelFactory):
     class Meta:
-        model = 'notes.BoardUser'
+        model = "notes.BoardUser"

@@ -13,7 +13,7 @@ from .entities import Note, Board
 from topsy.permissions import board_permissions
 
 
-class NoteUseCases():
+class NoteUseCases:
     """Class containing all Note use cases."""
 
     def __init__(self, storage):
@@ -23,18 +23,18 @@ class NoteUseCases():
     def create_note(self, note_dict, user_id, board_id=None):
         """Take a dictionary representing a note, save to DB and return entity."""
         if user_id is None:
-            raise ValueError('User ID required to create note.')
+            raise ValueError("User ID required to create note.")
 
-        if 'title' not in note_dict.keys():
-            raise ValueError('Title required to create note.')
+        if "title" not in note_dict.keys():
+            raise ValueError("Title required to create note.")
 
-        if 'body' not in note_dict.keys():
-            raise ValueError('Body required to create note.')
+        if "body" not in note_dict.keys():
+            raise ValueError("Body required to create note.")
 
         try:
             note = Note(**note_dict)
         except TypeError:
-            raise ValueError('Note initialized with invalid field')
+            raise ValueError("Note initialized with invalid field")
 
         return self.storage.save_note(note)
 
@@ -72,10 +72,10 @@ class NoteUseCases():
     def create_board(self, name, user_id):
         """Create a board to group notes."""
         if user_id is None:
-            raise ValueError('User ID required to create board.')
+            raise ValueError("User ID required to create board.")
         board = Board(name=name)
         board = self.storage.save_board(board)
-        self.add_user_to_board(board.id, user_id, role='owner')
+        self.add_user_to_board(board.id, user_id, role="owner")
         return board
 
     def get_user_boards(self, user_id):
@@ -90,14 +90,14 @@ class NoteUseCases():
         """Get all notes within a board."""
         pass
 
-    def add_user_to_board(self, board_id, user_id, role='reader'):
+    def add_user_to_board(self, board_id, user_id, role="reader"):
         """Give another user permission to view a board."""
         if board_id is None:
-            raise ValueError('Board ID required to add user to board.')
+            raise ValueError("Board ID required to add user to board.")
         if user_id is None:
-            raise ValueError('User ID required to add user to board.')
+            raise ValueError("User ID required to add user to board.")
         if role is None or role not in board_permissions.keys():
-            raise ValueError('Invalid board role provided: {}'.format(role))
+            raise ValueError("Invalid board role provided: {}".format(role))
 
         return self.storage.save_board_user(board_id, user_id, role)
 
@@ -115,6 +115,6 @@ class NoteUseCases():
             self.storage.delete_note(id=note.id)
 
         for user in users:
-            self.storage.delete_board_user(user_id=user['id'], board_id=board.id)
+            self.storage.delete_board_user(user_id=user["id"], board_id=board.id)
 
         return self.storage.delete_board(id=board.id)

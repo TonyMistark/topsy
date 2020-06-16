@@ -23,81 +23,84 @@ class CreateAccountTestCase(TestCase):
 
     def create_request(self, data):
         request = self.req_factory.post(
-            reverse('create_account'),
-            content_type='application/json',
+            reverse("create_account"),
+            content_type="application/json",
             data=json.dumps(data),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         request.user = AnonymousUser()
         request.session = {}
         return request
 
     def test_create_account_success(self):
-        user_dict = {
-            'name': 'Bob',
-            'email': 'bob@subgenius.com',
-            'password': 'sl4ck'
-        }
+        user_dict = {"name": "Bob", "email": "bob@subgenius.com", "password": "sl4ck"}
 
         request = self.create_request(user_dict)
         response = create_account(request)
-        response_data = json.loads(response.content.decode('utf8'))
+        response_data = json.loads(response.content.decode("utf8"))
 
-        self.assertEqual(response.status_code, 200, 'Error: {}'.format(response.content))
-        self.assertEqual(response_data['user']['email'], user_dict['email'])
+        self.assertEqual(
+            response.status_code, 200, "Error: {}".format(response.content)
+        )
+        self.assertEqual(response_data["user"]["email"], user_dict["email"])
 
     def test_create_account_missing_data(self):
         user_dict = {
-            'name': 'Bob',
-            'email': 'bob@subgenius.com',
+            "name": "Bob",
+            "email": "bob@subgenius.com",
             # No password submitted
         }
 
         request = self.create_request(user_dict)
         response = create_account(request)
-        response_data = json.loads(response.content.decode('utf8'))
+        response_data = json.loads(response.content.decode("utf8"))
 
-        self.assertEqual(response.status_code, 400, 'Error: {}'.format(response.content))
-        self.assertEqual(response_data['success'], False)
-        self.assertTrue('password' in response_data['message'])
+        self.assertEqual(
+            response.status_code, 400, "Error: {}".format(response.content)
+        )
+        self.assertEqual(response_data["success"], False)
+        self.assertTrue("password" in response_data["message"])
 
 
 class LoginTestCase(TestCase):
     def setUp(self):
         self.req_factory = RequestFactory()
-        self.user = UserModel(email='bob@subgenius.com', name='Bob')
-        self.user.set_password('sl4ck')
+        self.user = UserModel(email="bob@subgenius.com", name="Bob")
+        self.user.set_password("sl4ck")
         self.user.save()
 
     def create_request(self, data):
         request = self.req_factory.post(
-            reverse('login'),
-            content_type='application/json',
+            reverse("login"),
+            content_type="application/json",
             data=json.dumps(data),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         request.user = AnonymousUser()
         request.session = MagicMock()
         return request
 
     def test_login_success(self):
-        credentials = {
-            'email': 'bob@subgenius.com',
-            'password': 'sl4ck'
-        }
+        credentials = {"email": "bob@subgenius.com", "password": "sl4ck"}
 
         request = self.create_request(credentials)
         response = login(request)
-        response_data = json.loads(response.content.decode('utf8'))
+        response_data = json.loads(response.content.decode("utf8"))
 
-        self.assertEqual(response.status_code, 200, 'Response: {}'.format(response.content))
-        self.assertEqual(response_data['user']['email'], credentials['email'])
+        self.assertEqual(
+            response.status_code, 200, "Response: {}".format(response.content)
+        )
+        self.assertEqual(response_data["user"]["email"], credentials["email"])
 
     def test_login_bad_password(self):
         credentials = {
-            'email': 'bob@subgenius.com',
-            'password': 'slack'  # Incorrect password
+            "email": "bob@subgenius.com",
+            "password": "slack",  # Incorrect password
         }
 
         request = self.create_request(credentials)
         response = login(request)
 
-        self.assertEqual(response.status_code, 400, 'Response: {}'.format(response.content))
+        self.assertEqual(
+            response.status_code, 400, "Response: {}".format(response.content)
+        )

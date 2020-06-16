@@ -1,3 +1,3 @@
 import logging
 
-django_logging = logging.getLogger('topsy')
+django_logging = logging.getLogger("topsy")

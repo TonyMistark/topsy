@@ -24,4 +24,4 @@ class User(Entity):
     is_active = attr.ib(default=True)
     is_admin = attr.ib(default=False)
     last_login = attr.ib(default=None)
-    status = attr.ib(default='active')
+    status = attr.ib(default="active")

@@ -33,7 +33,8 @@ class DjangoStorage(Storage):
     def save_board_user(self, board_id, user_id, role):
         """Give user access to a board, or change user's role on board."""
         board_user = notes_models.BoardUser.objects.create(
-            board_id=board_id, user_id=user_id, role=role)
+            board_id=board_id, user_id=user_id, role=role
+        )
         return board_user.board.to_entity()
 
     def get_role(self, user_id, board_id):
@@ -55,7 +56,7 @@ class DjangoStorage(Storage):
         try:
             django_note = notes_models.Note.objects.get(id=id)
         except notes_models.Note.DoesNotExist:
-            raise self.DoesNotExist('Note {} was not found.'.format(id))
+            raise self.DoesNotExist("Note {} was not found.".format(id))
 
         return django_note.to_entity()
 
@@ -64,16 +65,16 @@ class DjangoStorage(Storage):
         try:
             django_note = notes_models.Note.objects.get(id=id)
         except notes_models.Note.DoesNotExist:
-            raise self.DoesNotExist('Note {} was not found.'.format(id))
+            raise self.DoesNotExist("Note {} was not found.".format(id))
 
         return django_note.delete()
 
     def get_board(self, id):
         """Get board metadata."""
         try:
-            django_note = notes_models.Board.objects.get(id=id, status='active')
+            django_note = notes_models.Board.objects.get(id=id, status="active")
         except notes_models.Board.DoesNotExist:
-            raise self.DoesNotExist('Board {} was not found.'.format(id))
+            raise self.DoesNotExist("Board {} was not found.".format(id))
 
         return django_note.to_entity()
 
@@ -85,17 +86,20 @@ class DjangoStorage(Storage):
     def get_board_users(self, id):
         """Get list of users that are joined to a board."""
         django_board_users = notes_models.BoardUser.objects.filter(board_id=id).all()
-        return [{'board_id': u.board_id, 'id': u.user_id, 'role': u.role}
-                for u in django_board_users]
+        return [
+            {"board_id": u.board_id, "id": u.user_id, "role": u.role}
+            for u in django_board_users
+        ]
 
     def delete_board_user(self, user_id, board_id):
         try:
             django_board_user = notes_models.BoardUser.objects.get(
-                user_id=user_id,
-                board_id=board_id
+                user_id=user_id, board_id=board_id
             )
         except notes_models.BoardUser.DoesNotExist:
-            raise self.DoesNotExist('User {} is not joined to board {}'.format(user_id, board_id))
+            raise self.DoesNotExist(
+                "User {} is not joined to board {}".format(user_id, board_id)
+            )
 
         django_board_user.delete()
         return django_board_user.asdict()
@@ -104,9 +108,9 @@ class DjangoStorage(Storage):
         try:
             django_board = notes_models.Board.objects.get(id=id)
         except notes_models.Board.DoesNotExist:
-            raise self.DoesNotExist('Board {} does not exist.'.format(id))
+            raise self.DoesNotExist("Board {} does not exist.".format(id))
 
-        django_board.status = 'deleted'
+        django_board.status = "deleted"
         django_board.save()
 
         return django_board.to_entity()

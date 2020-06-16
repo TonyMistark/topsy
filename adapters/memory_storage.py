@@ -5,6 +5,7 @@ Should have same API as database adapter.
 
 from .storage import Storage
 
+
 class MemoryStorage(Storage):
     """Adapter to use system memory as a storage backend."""
 
@@ -29,7 +30,7 @@ class MemoryStorage(Storage):
         try:
             return self.users[id]
         except KeyError:
-            raise self.DoesNotExist('User {} was not found'.format(id))
+            raise self.DoesNotExist("User {} was not found".format(id))
 
     def save_note(self, note):
         """Store note entity."""
@@ -46,13 +47,13 @@ class MemoryStorage(Storage):
         try:
             return self.notes[id]
         except KeyError:
-            raise self.DoesNotExist('Note {} was not found'.format(id))
+            raise self.DoesNotExist("Note {} was not found".format(id))
 
     def delete_note(self, id):
         try:
             del self.notes[id]
         except KeyError:
-            raise self.DoesNotExist('Note {} was not found'.format(id))
+            raise self.DoesNotExist("Note {} was not found".format(id))
 
         return True
 
@@ -69,15 +70,11 @@ class MemoryStorage(Storage):
     def save_board_user(self, board_id, user_id, role):
         """Give user access to a board, or change user's role on board."""
         for board_user in self.board_users:
-            if board_user['board_id'] == board_id and board_user['user_id'] == user_id:
-                board_user['role'] = role
+            if board_user["board_id"] == board_id and board_user["user_id"] == user_id:
+                board_user["role"] = role
                 return board_user
 
-        record = {
-            'board_id': board_id,
-            'user_id': user_id,
-            'role': role
-        }
+        record = {"board_id": board_id, "user_id": user_id, "role": role}
 
         self.board_users.append(record)
 
@@ -85,44 +82,46 @@ class MemoryStorage(Storage):
 
     def delete_board_user(self, board_id, user_id):
         for key, board_user in enumerate(self.board_users):
-            if board_user['board_id'] == board_id and board_user['user_id'] == user_id:
+            if board_user["board_id"] == board_id and board_user["user_id"] == user_id:
                 bu = self.board_users.pop(key)
                 return bu
 
-        raise ValueError('User {} not joined to board {}.'.format(board_id, user_id))
+        raise ValueError("User {} not joined to board {}.".format(board_id, user_id))
 
     def get_board(self, id):
         """Retrieve board entity by ID."""
         if type(id) is not int:
-            raise ValueError('Board id must be integer, not {}'.format(type(id).__name__))
+            raise ValueError(
+                "Board id must be integer, not {}".format(type(id).__name__)
+            )
 
         try:
             return self.boards[id]
         except KeyError:
-            raise self.DoesNotExist('Board {} was not found'.format(id))
+            raise self.DoesNotExist("Board {} was not found".format(id))
 
     def get_board_users(self, id):
         """Return list of users who have access to board."""
         users = []
-        user_roles = [(bu['user_id'], bu['role'])
-                      for bu in self.board_users if bu['board_id'] == id]
+        user_roles = [
+            (bu["user_id"], bu["role"])
+            for bu in self.board_users
+            if bu["board_id"] == id
+        ]
 
         for role in user_roles:
             for u in self.users.values():
                 if u.id == role[0]:
-                    users.append({
-                        'id': u.id,
-                        'name': u.name,
-                        'email': u.email,
-                        'role': role[1]
-                    })
+                    users.append(
+                        {"id": u.id, "name": u.name, "email": u.email, "role": role[1]}
+                    )
 
         return users
 
     def get_role(self, user_id, board_id):
         for bu in self.board_users:
-            if bu['board_id'] == board_id and bu['user_id'] == user_id:
-                return bu['role']
+            if bu["board_id"] == board_id and bu["user_id"] == user_id:
+                return bu["role"]
 
         return None
 

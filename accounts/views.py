@@ -8,51 +8,53 @@ formatting responses, and routing the requests to use cases.
 
 import json
 
-from django.http import JsonResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.contrib.auth import (authenticate, login as auth_login, logout as auth_logout)
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
+from django.http import HttpResponseRedirect, JsonResponse
+from django.urls import reverse
 from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
 
 from adapters.django_storage import DjangoStorage
+
 from .use_cases import AccountUseCases
 
 use_cases = AccountUseCases(DjangoStorage())
 
 
+@csrf_exempt
 def create_account(request):
     """Create new user account with name, email, password submitted by user."""
-    req_data = json.loads(request.body.decode('utf8'))
+    req_data = json.loads(request.body.decode("utf8"))
     try:
-        name = req_data['name']
-        email = req_data['email']
-        password = req_data['password']
+        name = req_data["name"]
+        email = req_data["email"]
+        password = req_data["password"]
     except KeyError as e:
         return JsonResponse(
-            {
-                'success': False,
-                'message': 'Missing required key {}'.format(e)
-            },
-            status=400
+            {"success": False, "message": "Missing required key {}".format(e)},
+            status=400,
         )
 
-    user = use_cases.create_account(user_dict={'name': name, 'email': email}, password=password)
+    user = use_cases.create_account(
+        user_dict={"name": name, "email": email}, password=password
+    )
 
-    return JsonResponse({'user': user.asdict()})
+    return JsonResponse({"user": user.asdict()})
 
 
+@csrf_exempt
 def login(request):
     """Login user."""
-    req_data = json.loads(request.body.decode('utf8'))
+    req_data = json.loads(request.body.decode("utf8"))
     try:
-        email = req_data['email']
-        password = req_data['password']
+        email = req_data["email"]
+        password = req_data["password"]
     except KeyError as e:
         return JsonResponse(
-            {
-                'success': False,
-                'message': 'Missing required key {}'.format(e)
-            },
-            status=400
+            {"success": False, "message": "Missing required key {}".format(e)},
+            status=400,
         )
 
     user = authenticate(request=request, username=email, password=password)
@@ -60,19 +62,15 @@ def login(request):
         auth_login(request, user)
     else:
         return JsonResponse(
-            {
-                'success': False,
-                'message': 'Incorrect username or password'
-            },
-            status=400
+            {"success": False, "message": "Incorrect username or password"}, status=400
         )
 
-    return JsonResponse({'success': True, 'user': user.to_entity().asdict()})
+    return JsonResponse({"success": True, "user": user.to_entity().asdict()})
 
 
 @never_cache
 def logout(request, next_page=None):
     """Log out the user and redirect to home page."""
     auth_logout(request)
-    response = HttpResponseRedirect(reverse('homepage'))
+    response = HttpResponseRedirect(reverse("homepage"))
     return response

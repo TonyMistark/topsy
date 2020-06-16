@@ -10,28 +10,50 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Board',
+            name="Board",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=150)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=150)),
             ],
         ),
         migrations.CreateModel(
-            name='Note',
+            name="Note",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=150)),
-                ('body', models.TextField()),
-                ('created_by', models.IntegerField(null=True)),
-                ('created_at', models.DateField()),
-                ('modified_at', models.DateField()),
-                ('status', models.CharField(max_length=50)),
-                ('board', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='notes.Board')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=150)),
+                ("body", models.TextField()),
+                ("created_by", models.IntegerField(null=True)),
+                ("created_at", models.DateField()),
+                ("modified_at", models.DateField()),
+                ("status", models.CharField(max_length=50)),
+                (
+                    "board",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="notes.Board",
+                    ),
+                ),
             ],
         ),
     ]

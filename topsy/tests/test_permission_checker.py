@@ -16,9 +16,9 @@ class PermissionCheckerTestCase(unittest.TestCase):
 
     def test_get_perms(self):
         """User with valid role on board should have some permissions."""
-        role = 'editor'
-        board = storage.save_board(Board(name='Fox & Raccoon'))
-        user = storage.create_user(User(name='Bird', email='bird@forest.com'), 'w0rm')
+        role = "editor"
+        board = storage.save_board(Board(name="Fox & Raccoon"))
+        user = storage.create_user(User(name="Bird", email="bird@forest.com"), "w0rm")
         storage.save_board_user(board.id, user.id, role)
 
         perms = self.get_perms(user.id, board.id)
@@ -27,12 +27,12 @@ class PermissionCheckerTestCase(unittest.TestCase):
 
     def test_has_perm(self):
         """User with valid role on board should have some permissions."""
-        role = 'editor'
-        board = storage.save_board(Board(name='Fox & Raccoon'))
-        user = storage.create_user(User(name='Bird', email='bird@forest.com'), 'w0rm')
+        role = "editor"
+        board = storage.save_board(Board(name="Fox & Raccoon"))
+        user = storage.create_user(User(name="Bird", email="bird@forest.com"), "w0rm")
         storage.save_board_user(board.id, user.id, role)
 
-        has_perm = self.get_perms(user.id, board.id, 'edit_note')
+        has_perm = self.get_perms(user.id, board.id, "edit_note")
 
         self.assertEqual(has_perm, True)
 

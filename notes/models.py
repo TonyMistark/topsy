@@ -8,8 +8,9 @@ We do allow convenience methods, like updating timestamps on save, and convertin
 and model instances.
 """
 
-from django.utils import timezone
 from django.db import models
+from django.utils import timezone
+
 from . import entities
 
 
@@ -25,7 +26,7 @@ class NoteManager(models.Manager):
             created_by=entity.created_by,
             created_at=entity.created_at,
             modified_at=entity.modified_at,
-            status=entity.status
+            status=entity.status,
         )
 
 
@@ -34,11 +35,11 @@ class Note(models.Model):
 
     title = models.CharField(max_length=150)
     body = models.TextField()
-    board = models.ForeignKey('Board', null=True)
+    board = models.ForeignKey("Board", null=True, on_delete=models.CASCADE)
     created_by = models.IntegerField(null=True)
     created_at = models.DateField(null=True)
     modified_at = models.DateField(null=True)
-    status = models.CharField(max_length=50, default='active')
+    status = models.CharField(max_length=50, default="active")
 
     objects = NoteManager()
 
@@ -59,7 +60,7 @@ class Note(models.Model):
             created_by=self.created_by,
             created_at=self.created_at,
             modified_at=self.modified_at,
-            status=self.status
+            status=self.status,
         )
 
 
@@ -72,7 +73,7 @@ class BoardManager(models.Manager):
             name=entity.name,
             created_at=entity.created_at,
             modified_at=entity.modified_at,
-            status=entity.status
+            status=entity.status,
         )
 
 
@@ -82,7 +83,7 @@ class Board(models.Model):
     name = models.CharField(max_length=150)
     created_at = models.DateField(null=True)
     modified_at = models.DateField(null=True)
-    status = models.CharField(max_length=50, default='active')
+    status = models.CharField(max_length=50, default="active")
 
     objects = BoardManager()
 
@@ -100,20 +101,16 @@ class Board(models.Model):
             name=self.name,
             created_at=self.created_at,
             modified_at=self.modified_at,
-            status=self.status
+            status=self.status,
         )
 
 
 class BoardUser(models.Model):
     """User permission on board."""
 
-    board = models.ForeignKey(Board)
-    user = models.ForeignKey('accounts.User')
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    user = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
     role = models.CharField(max_length=150)
 
     def asdict(self):
-        return {
-            'board_id': self.board.id,
-            'user_id': self.user.id,
-            'role': self.role
-        }
+        return {"board_id": self.board.id, "user_id": self.user.id, "role": self.role}

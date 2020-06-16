@@ -14,7 +14,7 @@ class SaveNoteTestCase(TestCase):
     """Tests for saving notes."""
 
     def test_save_note(self):
-        note = notes_entities.Note(title='title', body='body')
+        note = notes_entities.Note(title="title", body="body")
 
         note = storage.save_note(note)
 

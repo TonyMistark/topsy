@@ -8,7 +8,7 @@ from ..models import Note as NoteModel, Board as BoardModel
 
 class NoteTestCase(TestCase):
     def setUp(self):
-        self.entity = NoteEntity(title='title', body='body')
+        self.entity = NoteEntity(title="title", body="body")
 
     def test_from_entity(self):
         note = NoteModel.objects.from_entity(self.entity)
@@ -23,7 +23,7 @@ class NoteTestCase(TestCase):
         self.assertTrue(note.modified_at is not None)
 
     def test_to_entity(self):
-        note = NoteModel(title='title', body='body')
+        note = NoteModel(title="title", body="body")
         entity = note.to_entity()
 
         self.assertEqual(note.id, entity.id)
@@ -32,7 +32,7 @@ class NoteTestCase(TestCase):
 
 class BoardTestCase(TestCase):
     def setUp(self):
-        self.entity = BoardEntity(name='name')
+        self.entity = BoardEntity(name="name")
 
     def test_from_entity(self):
         board = BoardModel.objects.from_entity(self.entity)
@@ -47,7 +47,7 @@ class BoardTestCase(TestCase):
         self.assertTrue(board.modified_at is not None)
 
     def test_to_entity(self):
-        board = BoardModel(name='name')
+        board = BoardModel(name="name")
         entity = board.to_entity()
 
         self.assertEqual(board.id, entity.id)

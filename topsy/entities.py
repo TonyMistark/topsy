@@ -8,7 +8,7 @@ your declaration, write dunder methods based on that information, and attach the
 import attr
 
 
-class Entity():
+class Entity:
     """
     Base class for all Topsy entities.
 

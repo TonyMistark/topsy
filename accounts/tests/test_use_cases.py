@@ -20,12 +20,12 @@ class CreateAccountTestCase(unittest.TestCase):
     def test_create_account(self):
         """Basic successful account creation."""
         user_dict = {
-            'name': 'Bob',
-            'email': 'bob@subgenius.com',
+            "name": "Bob",
+            "email": "bob@subgenius.com",
         }
 
-        user = use_cases.create_account(user_dict=user_dict, password='sl4ck')
+        user = use_cases.create_account(user_dict=user_dict, password="sl4ck")
         saved_user = storage.get_user(user.id)
 
-        self.assertEqual(user_dict['name'], saved_user.name)
-        self.assertEqual(user_dict['email'], saved_user.email)
+        self.assertEqual(user_dict["name"], saved_user.name)
+        self.assertEqual(user_dict["email"], saved_user.email)

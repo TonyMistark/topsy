@@ -1,19 +1,28 @@
 """Interface for checking a given user's permissions on a given board."""
 
 board_permissions = {
-    'reader': ('view_notes', ),
-    'editor': ('view_notes', 'add_note', 'delete_note', 'edit_note'),
-    'owner': ('view_notes', 'add_note', 'delete_note', 'edit_note', 'add_user', 'remove_user',
-              'edit_name', 'delete')
+    "reader": ("view_notes",),
+    "editor": ("view_notes", "add_note", "delete_note", "edit_note"),
+    "owner": (
+        "view_notes",
+        "add_note",
+        "delete_note",
+        "edit_note",
+        "add_user",
+        "remove_user",
+        "edit_name",
+        "delete",
+    ),
 }
 
 
 class PermissionError(Exception):
     """Raised when a user tries to perform an action they don't have permission for."""
+
     pass
 
 
-class PermissionChecker():
+class PermissionChecker:
     """Check user's permissions on a board.
 
     Examples:

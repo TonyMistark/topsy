@@ -12,7 +12,7 @@ objects by the storage layer.
 from .entities import User
 
 
-class AccountUseCases():
+class AccountUseCases:
     """Class containing all use cases for User accounts."""
 
     def __init__(self, storage):

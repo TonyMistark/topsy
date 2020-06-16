@@ -8,38 +8,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('notes', '0001_initial'),
+        ("notes", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='board',
-            name='created_at',
-            field=models.DateField(null=True),
+            model_name="board", name="created_at", field=models.DateField(null=True),
         ),
         migrations.AddField(
-            model_name='board',
-            name='modified_at',
-            field=models.DateField(null=True),
+            model_name="board", name="modified_at", field=models.DateField(null=True),
         ),
         migrations.AddField(
-            model_name='board',
-            name='status',
-            field=models.CharField(default='active', max_length=50),
+            model_name="board",
+            name="status",
+            field=models.CharField(default="active", max_length=50),
         ),
         migrations.AlterField(
-            model_name='note',
-            name='created_at',
-            field=models.DateField(null=True),
+            model_name="note", name="created_at", field=models.DateField(null=True),
         ),
         migrations.AlterField(
-            model_name='note',
-            name='modified_at',
-            field=models.DateField(null=True),
+            model_name="note", name="modified_at", field=models.DateField(null=True),
         ),
         migrations.AlterField(
-            model_name='note',
-            name='status',
-            field=models.CharField(default='active', max_length=50),
+            model_name="note",
+            name="status",
+            field=models.CharField(default="active", max_length=50),
         ),
     ]

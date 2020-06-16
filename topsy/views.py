@@ -5,4 +5,4 @@ from django.shortcuts import render
 
 def homepage(request):
     """Welcome to Topsy..."""
-    return render(request, 'homepage.html')
+    return render(request, "homepage.html")
