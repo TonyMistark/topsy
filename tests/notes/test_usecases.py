@@ -7,22 +7,25 @@ use cases and the Django ORM.
 
 import unittest
 
-from adapters.memory_storage import MemoryStorage
-from notes.use_cases import NoteUseCases
-from notes.entities import Note, Board
-from accounts.entities import User
+import accounts.adapters.memory_storage as accounts_memory_storage
+import notes.adapters.memory_storage as notes_memory_storage
+from accounts.core.entities import User
+from notes.core.entities import Board, Note
+from notes.core.usecases import NoteUseCases
 
 
-def set_up_use_cases():
-    return NoteUseCases(MemoryStorage())
+def init():
+    accounts_storage = accounts_memory_storage.MemoryStorage()
+    notes_storage = notes_memory_storage.MemoryStorage()
+    notes_storage.users = accounts_storage.users
+    return NoteUseCases(notes_storage), notes_storage, accounts_storage
 
 
 class CreateNoteTestCase(unittest.TestCase):
     """Tests for creating a note."""
 
     def setUp(self):
-        self.use_cases = set_up_use_cases()
-        self.storage = self.use_cases.storage
+        self.use_cases, self.storage, _ = init()
 
     def test_create_simple_note(self):
         """Create a note with just a title and a body."""
@@ -59,8 +62,7 @@ class GetNoteTestCase(unittest.TestCase):
     """Tests for retrieving a single note."""
 
     def setUp(self):
-        self.use_cases = set_up_use_cases()
-        self.storage = self.use_cases.storage
+        self.use_cases, self.storage, _ = init()
         self.note = Note(title="title", body="body")
         self.note = self.storage.save_note(self.note)
 
@@ -75,8 +77,7 @@ class SaveNoteTestCase(unittest.TestCase):
     """Tests for editing a single note."""
 
     def setUp(self):
-        self.use_cases = set_up_use_cases()
-        self.storage = self.use_cases.storage
+        self.use_cases, self.storage, _ = init()
         self.note = Note(title="title", body="body")
         self.note = self.storage.save_note(self.note)
 
@@ -108,8 +109,7 @@ class MoveNoteTestCase(unittest.TestCase):
     """Tests for moving a note."""
 
     def setUp(self):
-        self.use_cases = set_up_use_cases()
-        self.storage = self.use_cases.storage
+        self.use_cases, self.storage, _ = init()
         self.board = self.storage.save_board(Board(name="mediocre notes"))
         self.note = Note(title="title", body="body", board_id=self.board.id)
         self.note = self.storage.save_note(self.note)
@@ -129,8 +129,7 @@ class DeleteNoteTestCase(unittest.TestCase):
     """Tests for deleting a single note."""
 
     def setUp(self):
-        self.use_cases = set_up_use_cases()
-        self.storage = self.use_cases.storage
+        self.use_cases, self.storage, _ = init()
         self.note = Note(title="title", body="body")
         self.note = self.storage.save_note(self.note)
 
@@ -146,10 +145,9 @@ class CreateBoardTestCase(unittest.TestCase):
     """Tests for creating a board."""
 
     def setUp(self):
-        self.use_cases = set_up_use_cases()
-        self.storage = self.use_cases.storage
+        self.use_cases, self.storage, self.accounts_storage = init()
         self.user = User(id=1, name="Bob", email="bob@subgenius.com")
-        self.storage.create_user(self.user, "sl4ck")
+        self.accounts_storage.create_user(self.user, "sl4ck")
 
     def test_create_board(self):
         board_name = "The Stark Fist of Removal"
@@ -167,10 +165,8 @@ class AddUserToBoardTestCase(unittest.TestCase):
     """Tests for adding board permissions."""
 
     def setUp(self):
-        self.use_cases = set_up_use_cases()
-        self.storage = self.use_cases.storage
+        self.use_cases, self.storage, self.accounts_storage = init()
         self.user = User(id=1, name="Bob", email="bob@subgenius.com")
-        self.storage.create_user(self.user, "sl4ck")
 
         self.board = Board(id=1, name="The Book of the SubGenius")
         self.storage.save_board(self.board)
@@ -199,11 +195,10 @@ class RemoveUserFromBoardTestCase(unittest.TestCase):
     """Tests for removing board permissions."""
 
     def setUp(self):
-        self.use_cases = set_up_use_cases()
-        self.storage = self.use_cases.storage
+        self.use_cases, self.storage, self.accounts_storage = init()
 
         self.user = User(id=1, name="Bob", email="bob@subgenius.com")
-        self.storage.create_user(self.user, "sl4ck")
+        self.accounts_storage.create_user(self.user, "sl4ck")
 
         self.board = Board(id=1, name="The Book of the SubGenius")
         self.storage.save_board(self.board)
@@ -226,9 +221,8 @@ class DeleteBoardTestCase(unittest.TestCase):
     """Tests for deleting boards."""
 
     def setUp(self):
-        self.use_cases = set_up_use_cases()
-        self.storage = self.use_cases.storage
-        self.user = self.storage.create_user(
+        self.use_cases, self.storage, self.accounts_storage = init()
+        self.user = self.accounts_storage.create_user(
             User(name="Bob", email="bob@subgenius.com"), "sl4ck"
         )
         self.board = self.storage.save_board(Board(name="The Book of the SubGenius"))

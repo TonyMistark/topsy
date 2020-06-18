@@ -6,10 +6,10 @@ construct simple, readable entity classes: "All attrs does is take your declarat
 methods based on that information, and attach them to your class."
 """
 
-import attr
 from datetime import datetime
 
-from topsy.entities import Entity
+import attr
+from topsy.core.entities import Entity
 
 
 @attr.s(frozen=True)

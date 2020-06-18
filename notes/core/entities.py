@@ -19,10 +19,10 @@ We use the attrs package to construct simple, readable entity classes: "All attr
 declaration, write dunder methods based on that information, and attach them to your class."
 """
 
-import attr
 from datetime import datetime
 
-from topsy.entities import Entity
+import attr
+from topsy.core.entities import Entity
 
 
 @attr.s(frozen=True)

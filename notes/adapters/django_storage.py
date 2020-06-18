@@ -1,28 +1,9 @@
-"""Adapter for Django ORM.
-
-Pretty much all calls to the database in the live app should go through the methods of this class.
-The MemoryStorage class shares the same interface, but doesn't depend on an actual database. It can
-be swapped out for this one when testing use cases.
-"""
-
-from .storage import Storage
-from accounts import models as accounts_models
 from notes import models as notes_models
+from notes.adapters.storage import Storage
 
 
 class DjangoStorage(Storage):
     """Adapter to use Django ORM as a storage backend."""
-
-    def create_user(self, user, password):
-        """Create user entity.
-
-        Because Django provides password hashing functionality that we want to use, we perform this
-        action in the adapter, so that nothing is imported from Django in our use case.
-        """
-        django_user = accounts_models.User.objects.from_entity(user)
-        django_user.set_password(password)
-        django_user.save()
-        return django_user.to_entity()
 
     def save_board(self, board):
         """Store board entity."""

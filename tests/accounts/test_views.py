@@ -9,9 +9,9 @@ are all playing nicely together.
 import json
 from unittest.mock import MagicMock
 
-from django.test import TestCase, RequestFactory
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
 
 from accounts.models import User as UserModel
 from accounts.views import create_account, login

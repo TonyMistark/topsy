@@ -2,9 +2,9 @@
 
 import unittest
 
-from ..action_decorators import permission, log
-from ..permissions import PermissionError
-from adapters.memory_logging import MemoryLogging
+from topsy.action_decorators import log, permission
+from topsy.adapters.memory_logging import MemoryLogging
+from topsy.permissions import PermissionError
 
 
 class PermissionTestCase(unittest.TestCase):

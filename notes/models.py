@@ -11,7 +11,7 @@ and model instances.
 from django.db import models
 from django.utils import timezone
 
-from . import entities
+from notes.core import entities
 
 
 class NoteManager(models.Manager):

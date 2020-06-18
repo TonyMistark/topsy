@@ -2,7 +2,7 @@ import unittest
 
 import attr
 
-from topsy.entities import Entity
+from topsy.core.entities import Entity
 
 
 class EntityTestCase(unittest.TestCase):

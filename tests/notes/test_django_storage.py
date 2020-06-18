@@ -2,10 +2,10 @@
 
 from django.test import TestCase
 
-from ..django_storage import DjangoStorage
 from notes import models as notes_models
-from notes import entities as notes_entities
-from . import model_factories
+from notes.adapters.django_storage import DjangoStorage
+from notes.core import entities as notes_entities
+from tests.common import model_factories
 
 storage = DjangoStorage()
 

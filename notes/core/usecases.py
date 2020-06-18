@@ -9,7 +9,7 @@ storage dependency (but could be used to inject other dependencies). When retrie
 stored objects (notes, boards, etc), use cases only operate on entities, which are converted to
 and from ORM objects by the storage layer.
 """
-from .entities import Note, Board
+from notes.core.entities import Board, Note
 from topsy.permissions import board_permissions
 
 

@@ -7,19 +7,19 @@ are all playing nicely together.
 
 import json
 
-from django.test import TestCase, RequestFactory
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
 
-from adapters.tests import model_factories
 from notes.views import (
-    create_board,
-    get_note,
-    edit_note,
     add_user_to_board,
+    create_board,
     delete_board,
+    edit_note,
+    get_note,
     remove_user_from_board,
 )
+from tests.common import model_factories
 
 
 class CreateBoardTestCase(TestCase):

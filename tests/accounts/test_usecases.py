@@ -7,8 +7,8 @@ use cases and the Django ORM.
 
 import unittest
 
-from adapters.memory_storage import MemoryStorage
-from accounts.use_cases import AccountUseCases
+from accounts.core.usecases import AccountUseCases
+from accounts.adapters.memory_storage import MemoryStorage
 
 storage = MemoryStorage()
 use_cases = AccountUseCases(storage)

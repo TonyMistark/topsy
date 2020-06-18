@@ -2,8 +2,10 @@
 
 from django.test import TestCase
 
-from ..entities import Note as NoteEntity, Board as BoardEntity
-from ..models import Note as NoteModel, Board as BoardModel
+from notes.core.entities import Board as BoardEntity
+from notes.core.entities import Note as NoteEntity
+from notes.models import Board as BoardModel
+from notes.models import Note as NoteModel
 
 
 class NoteTestCase(TestCase):

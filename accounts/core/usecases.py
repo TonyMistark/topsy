@@ -9,7 +9,7 @@ stored objects (users), use cases only operate on entities, which are converted 
 objects by the storage layer.
 """
 
-from .entities import User
+from accounts.core.entities import User
 
 
 class AccountUseCases:

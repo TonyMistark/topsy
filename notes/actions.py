@@ -5,8 +5,8 @@ behavior to actions performaned by users. The examples we show are decorators fo
 transation data and checking permissions on a per-action basis.
 """
 
-from topsy.action_decorators import permission, log
-from .use_cases import NoteUseCases
+from notes.core.usecases import NoteUseCases
+from topsy.action_decorators import log, permission
 
 
 class NoteActions:

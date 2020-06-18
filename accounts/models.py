@@ -8,10 +8,11 @@ We do allow convenience methods, like updating timestamps on save, and convertin
 and model instances.
 """
 
-from django.utils import timezone
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from . import entities
+from django.db import models
+from django.utils import timezone
+
+from accounts.core import entities
 
 
 class UserManager(BaseUserManager):

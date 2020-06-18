@@ -16,9 +16,8 @@ from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
-from adapters.django_storage import DjangoStorage
-
-from .use_cases import AccountUseCases
+from accounts.adapters.django_storage import DjangoStorage
+from accounts.core.usecases import AccountUseCases
 
 use_cases = AccountUseCases(DjangoStorage())
 
