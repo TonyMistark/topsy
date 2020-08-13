@@ -9,16 +9,13 @@ import json
 
 from django.contrib.auth.decorators import login_required
 
+from notes.actions import NoteActions
 from notes.adapters.django_storage import DjangoStorage
-from notes.core.usecases import NoteUseCases
 from topsy.adapters.django_logging import django_logging
 from topsy.permissions import PermissionChecker, PermissionError
 from topsy.utils import json_error, json_success
 
-from .actions import NoteActions
-
 storage = DjangoStorage()
-use_cases = NoteUseCases(storage)
 actions = NoteActions(storage, django_logging)
 get_perms = PermissionChecker(storage)
 

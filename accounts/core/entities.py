@@ -6,22 +6,21 @@ construct simple, readable entity classes: "All attrs does is take your declarat
 methods based on that information, and attach them to your class."
 """
 
-from datetime import datetime
+from datetime import date
+from typing import Optional
 
-import attr
-from topsy.core.entities import Entity
+from pydantic import BaseModel
 
 
-@attr.s(frozen=True)
-class User(Entity):
+class User(BaseModel):
     """User is the object identifying each person who has signed up for Topsy."""
 
-    email = attr.ib()
-    name = attr.ib()
-    id = attr.ib(default=None)
-    created_at = attr.ib(default=datetime.utcnow())
-    modified_at = attr.ib(default=datetime.utcnow())
-    is_active = attr.ib(default=True)
-    is_admin = attr.ib(default=False)
-    last_login = attr.ib(default=None)
-    status = attr.ib(default="active")
+    email: str
+    name: str
+    id: Optional[int] = None
+    created_at: Optional[date] = None
+    modified_at: Optional[date] = None
+    is_active = True
+    is_admin = False
+    last_login: Optional[date] = None
+    status = "active"

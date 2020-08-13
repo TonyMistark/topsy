@@ -10,7 +10,6 @@ and model instances.
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.utils import timezone
 
 from accounts.core import entities
 
@@ -39,22 +38,14 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    created_at = models.DateField()
-    modified_at = models.DateField()
+    created_at = models.DateField(auto_now=True)
+    modified_at = models.DateField(auto_now=True)
     last_login = models.DateField(null=True)
     status = models.CharField(max_length=50)
 
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-
-    def save(self, *args, **kwargs):
-        if not self.created_at:
-            self.created_at = timezone.now()
-
-        self.modified_at = timezone.now()
-
-        super().save(*args, **kwargs)
 
     def to_entity(self):
         return entities.User(

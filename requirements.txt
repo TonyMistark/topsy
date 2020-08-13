@@ -9,3 +9,4 @@ python-dateutil==2.6.0
 requests==2.13.0
 six==1.10.0
 stripe==1.50.0
+pydantic==1.6.1

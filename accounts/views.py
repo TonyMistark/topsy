@@ -40,7 +40,7 @@ def create_account(request):
         user_dict={"name": name, "email": email}, password=password
     )
 
-    return JsonResponse({"user": user.asdict()})
+    return JsonResponse({"user": user.dict()})
 
 
 @csrf_exempt
@@ -64,7 +64,7 @@ def login(request):
             {"success": False, "message": "Incorrect username or password"}, status=400
         )
 
-    return JsonResponse({"success": True, "user": user.to_entity().asdict()})
+    return JsonResponse({"success": True, "user": user.to_entity().dict()})
 
 
 @never_cache

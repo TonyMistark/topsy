@@ -13,7 +13,8 @@ class MemoryStorage(Storage):
         if user.id is None:
             existing_ids = self.users.keys()
             new_id = 1 if len(existing_ids) == 0 else max(existing_ids) + 1
-            user = user.replace(id=new_id)
+            # user = user.replace(id=new_id)
+            user = user.copy(update={id: new_id})
 
         self.users[user.id] = user
         return user

@@ -22,6 +22,7 @@ declaration, write dunder methods based on that information, and attach them to 
 from datetime import datetime
 
 import attr
+
 from topsy.core.entities import Entity
 
 
@@ -48,3 +49,10 @@ class Board(Entity):
     created_at = attr.ib(default=datetime.utcnow())
     modified_at = attr.ib(default=datetime.utcnow())
     status = attr.ib(default="active")
+
+
+@attr.s(frozen=True)
+class BoardUser(Entity):
+    board_id = attr.ib(default=None)
+    user_id = attr.ib(default=None)
+    role = attr.ib(default="")
